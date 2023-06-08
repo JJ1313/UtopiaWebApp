@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import config.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,8 +12,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Curso;
+import dao.CursosDAO;
 
 /**
  *
@@ -60,12 +65,38 @@ public class SvPerfil extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Curso> cursos = new ArrayList<>();
-        cursos.add(new Curso(0, "python basico", 2, 3));
-        cursos.add(new Curso(1, "teoria del color", 1, 5));
-        cursos.add(new Curso(2, "geometria", 0, 6));
-        request.getSession().setAttribute("cursosUsuario", cursos);
-        response.sendRedirect("perfil.jsp");
+// ----- CERRAR SESSION
+        if(request.getParameter("closeSession") != null){
+            request.getSession().invalidate();
+        }
+// ----- VER PERFIL
+        else if(request.getParameter("goProfile") != null){
+           ArrayList<Curso> cursos = new ArrayList<>();
+            String query = "SELECT (nombre) FROM cursos";
+            try{
+                Conexion db = new Conexion();
+                Connection con = db.conexion();
+                try{
+                    PreparedStatement sent = con.prepareStatement(query);
+                    ResultSet rs = sent.executeQuery();
+                    while(rs.next()){
+                        Curso curso= new Curso();
+                        curso.setNombre(rs.getString("nombre"));
+                        cursos.add(curso);
+                    }
+                    request.getSession().setAttribute("cursosUsuario", cursos);
+                    response.sendRedirect("perfil.jsp");
+                }
+                catch(Exception e){
+                    System.out.println("1: SvPerfil: " + e.getMessage());
+                }
+            }
+            catch(Exception e){
+                System.out.println("2: SvPerfil: " + e.getMessage());
+            } 
+        }
+        
+        
     }
 
     /**

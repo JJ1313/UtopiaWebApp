@@ -47,15 +47,15 @@ public class SvCursos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Curso> misCursos = new ArrayList<>();
-        misCursos.add(new Curso(0, "python basico", 2, 3));
-        misCursos.add(new Curso(1, "teoria del color", 1, 5));
-        misCursos.add(new Curso(2, "geometria", 0, 6));
-        
-        int idSesion = (int) request.getSession().getAttribute("idUsuario");
-        System.out.println("CASA");
-        System.out.println(idSesion);
-        response.sendRedirect("index.jsp");
+//        ArrayList<Curso> misCursos = new ArrayList<>();
+//        misCursos.add(new Curso(0, "python basico", 2, 3));
+//        misCursos.add(new Curso(1, "teoria del color", 1, 5));
+//        misCursos.add(new Curso(2, "geometria", 0, 6));
+//        
+//        int idSesion = (int) request.getSession().getAttribute("idUsuario");
+//        System.out.println("CASA");
+//        System.out.println(idSesion);
+//        response.sendRedirect("index.jsp");
     }
 
     @Override

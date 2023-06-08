@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import dao.UsuariosDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,10 +13,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Usuario;
 
 /**
  *
- * @author JJ
+ * @author Heinz Gerhard Beckers Sandoval
  */
 @WebServlet(name = "SvUsuarios", urlPatterns = {"/SvUsuarios"})
 public class SvUsuarios extends HttpServlet {
@@ -31,19 +33,6 @@ public class SvUsuarios extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet SvUsuarios</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet SvUsuarios at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,16 +61,43 @@ public class SvUsuarios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String correo = request.getParameter("email");
-        String pass = request.getParameter("password");
+        UsuariosDAO usersDAO = new UsuariosDAO();
+//----- CREAR USUARIO
+        if(request.getParameter("signUp") != null){
+            // DAtos de formulario
+            System.out.println("ENTRO AQUI!! l68 svUsuario");
+            String name = request.getParameter("name");
+            String correo = request.getParameter("email");
+            String pass = request.getParameter("password");
+            // Verifica que usuario no exista
+            if(usersDAO.getUserByName(name) == null){
+                Usuario user = usersDAO.createUser(name, correo, pass);
+                
+                user = usersDAO.getUserByName(name);
+                
+                HttpSession sesionActual = request.getSession();
+                sesionActual.setAttribute("id", user.getId());
+                sesionActual.setAttribute("name", user.getNombre());
+                response.sendRedirect("index.jsp");
+            }
+            else{
+                System.out.println("Usuario existe");
+                response.sendRedirect("index.jsp");
+            } 
+//            System.out.println("SIGN UP CLICK");
+        }
         
-        int id = 0; //Obtener de BDD
+//----- INICIAR SESION
+        else if( request.getParameter("logIn") != null){
+            String name = request.getParameter("name");
+            String password = request.getParameter("password");
+            System.out.println("LOG IN CLICK");
+        }
         
-        HttpSession sesionActual = request.getSession();
-        sesionActual.setAttribute("idUsuario", id);
-        sesionActual.setAttribute("name", name);
-        
+//----- OPCION NO VALIDA
+        else{
+            System.out.println("Opcion no valida.");
+        }
     }
 
     @Override

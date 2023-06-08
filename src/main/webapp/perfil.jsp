@@ -16,11 +16,12 @@
     </head>
     <body>
         <% 
-            String name = (String) request.getSession().getAttribute("name");
+//            int id = (int) request.getSession().getAttribute("id");
             ArrayList<Curso> cursosUsuario = (ArrayList) request.getSession().getAttribute("cursosUsuario");
+            
         %>
-        <h1><%= name %></h1>
-        <h2>CURSOS</h2>
+        <h1>NOMBRE</h1>
+        <h2>MIS CURSOS</h2>
         <% 
         for(Curso curso : cursosUsuario){
         %>
