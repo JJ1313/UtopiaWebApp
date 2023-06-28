@@ -1,0 +1,15 @@
+controllers\SvHome.class
+dao\UsuariosDAO.class
+utopiawebapp\JakartaRestConfiguration.class
+config\Conexion.class
+model\Usuario.class
+heinz\utopiawebapp\resources\JakartaEE10Resource.class
+model\Modulo.class
+utopiawebapp\resources\JakartaEE10Resource.class
+dao\CursosDAO.class
+controllers\SvCrearCurso.class
+heinz\utopiawebapp\JakartaRestConfiguration.class
+dao\ModulosDAO.class
+model\Curso.class
+controllers\SvCursos.class
+controllers\SvPerfil.class

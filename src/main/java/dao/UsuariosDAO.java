@@ -95,4 +95,29 @@ public class UsuariosDAO {
         return user;
     }
     
+    public boolean  checkPassword(String name, String pass){
+        boolean verificado = false;
+        String query = "SELECT nombre, pass, id, correo FROM usuarios where nombre = ? AND pass = ?";
+        try{
+            Conexion db = new Conexion();
+            Connection con = db.conexion();
+            try{
+                PreparedStatement sent = con.prepareStatement(query);
+                sent.setString(1, name);
+                sent.setString(2, pass);
+                ResultSet rs = sent.executeQuery();
+                while(rs.next()){
+                    verificado = true;
+                }
+            }
+            catch(Exception e){
+                System.out.println("1 Error :" + e.getMessage());
+            }
+            con.close();
+        }
+        catch(Exception e){
+            System.out.println("Error al conecta con bdd: " + e.getMessage());
+        }
+        return verificado;
+    }
 }

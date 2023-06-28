@@ -5,6 +5,7 @@ public class Curso {
     private String name;
     private int idCreador;
     private int cantModulos;
+    private int cantUsuario;
 
     public Curso() {
     }
@@ -42,6 +43,22 @@ public class Curso {
     }
     public void setCantModulos(int cantModulos) {
         this.cantModulos = cantModulos;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCantUsuario() {
+        return cantUsuario;
+    }
+
+    public void setCantUsuario(int cantUsuario) {
+        this.cantUsuario = cantUsuario;
     }
     
     

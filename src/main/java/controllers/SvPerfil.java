@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Curso;
 import dao.CursosDAO;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -65,38 +66,19 @@ public class SvPerfil extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-// ----- CERRAR SESSION
-        if(request.getParameter("closeSession") != null){
-            request.getSession().invalidate();
+        HttpSession sesionActual = request.getSession();
+        CursosDAO cursosDAO = new CursosDAO();
+        int id = (int) sesionActual.getAttribute("id");
+        if(request.getParameter("deleteCurso") != null){
+            cursosDAO.deletCurso(Integer.parseInt(request.getParameter("deleteCurso")));
+            sesionActual.setAttribute("cursosCreados", cursosDAO.getCursosCreados(id));
+            response.sendRedirect("perfil.jsp");
         }
-// ----- VER PERFIL
-        else if(request.getParameter("goProfile") != null){
-           ArrayList<Curso> cursos = new ArrayList<>();
-            String query = "SELECT (nombre) FROM cursos";
-            try{
-                Conexion db = new Conexion();
-                Connection con = db.conexion();
-                try{
-                    PreparedStatement sent = con.prepareStatement(query);
-                    ResultSet rs = sent.executeQuery();
-                    while(rs.next()){
-                        Curso curso= new Curso();
-                        curso.setNombre(rs.getString("nombre"));
-                        cursos.add(curso);
-                    }
-                    request.getSession().setAttribute("cursosUsuario", cursos);
-                    response.sendRedirect("perfil.jsp");
-                }
-                catch(Exception e){
-                    System.out.println("1: SvPerfil: " + e.getMessage());
-                }
-            }
-            catch(Exception e){
-                System.out.println("2: SvPerfil: " + e.getMessage());
-            } 
+        if(request.getParameter("agregarCurso") != null){
+            cursosDAO.agregarCurso(Integer.parseInt(request.getParameter("agregarCurso")), id);
+            sesionActual.setAttribute("cursosUsuario", cursosDAO.getCursosUsuario(id));
+            response.sendRedirect("perfil.jsp");
         }
-        
-        
     }
 
     /**

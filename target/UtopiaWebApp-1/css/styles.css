@@ -1,0 +1,14 @@
+:root{
+    --color-black: #373331;
+    --color-white: #DDDDDC;
+}
+*{
+    margin: 0;
+    border: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--color-black);
+    color: var(--color-white);
+}
