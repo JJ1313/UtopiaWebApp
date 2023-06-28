@@ -25,3 +25,20 @@ Configuración del proyecto
     Crea una base de datos en MySQL llamada cursos_db.
     Importa el archivo SQL utopia.sql en la base de datos para crear las tablas necesarias.
     Compila y ejecuta la aplicación.
+
+Usuarios
+
+Admin: 
+alma@perros.cl
+123
+
+No Admin:
+
+jez@caracol.cl
+123
+
+many@perros.cl
+123
+
+
+https://github.com/JJ1313/UtopiaWebApp
